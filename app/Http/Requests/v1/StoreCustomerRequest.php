@@ -22,7 +22,7 @@ class StoreCustomerRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
      */
     public function rules(): array
-    {
+    {   
         return [
             'name' => ['required'],
             # Si el cliente proporciona un tipo diferente a estos, será rechazado
