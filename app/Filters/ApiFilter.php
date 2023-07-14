@@ -1,39 +1,22 @@
 <?php
 
-namespace App\Services\v1;
+namespace App\Filters;
 
 use Illuminate\Http\Request;
 
-class CustomerQuery {
+class ApiFilter {
 
   /**
    * Las claves representan los nombres de los campos o columnas de la base de datos,
    * y los valores son arrays que contienen los operadores permitidos para ese campo en particular.
    */
-  protected $safeParms = [
-    #  eq => equivalente, gt => mayor que, lt => menor que
-    'name' => ['eq'],
-    'type' => ['eq'],
-    'email' => ['eq'],
-    'address' => ['eq'],
-    'city' => ['eq'],
-    'state' => ['eq'],
-    'postalCode' => ['eq','gt','lt '],
-  ];
+  protected $safeParms = [];
 
   # $columnMap se utiliza cuando los nombres de columnas en la base de datos no siguen las convenciones de nomenclatura
-  protected $columnMap = [
-    'postalCode' => 'postal_code',
-  ];
+  protected $columnMap = [];
 
   # Transformamos los operadores de nuestra consulta a los que Eloquent va a necesitar
-  protected $operatorMap = [
-    'eq' => '=',
-    'lt' => '<',
-    'lte' => '<=',
-    'gt' => '>',
-    'gte' => '>=',
-  ];
+  protected $operatorMap = [];
 
   # Aqui transformaremos la cadena de consulta a una cadena que pueda ser entendida por ELOQUENT
   public function transform(Request $request)

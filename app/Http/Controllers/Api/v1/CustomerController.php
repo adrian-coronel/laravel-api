@@ -4,21 +4,21 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Models\Customer;
 use Illuminate\Http\Request;
-use App\Services\v1\CustomerQuery;
+use App\Filters\v1\CustomersFilter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Resources\v1\CustomerResource;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Http\Resources\v1\CustomerCollection;
 
-class CustomerController extends Controller
+class CustomerController extends Controller 
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
-    {
-        $filter = new CustomerQuery();
+    {   
+        $filter = new CustomersFilter();
 
         #ejemplo de lo que se  pasa: /api/v1/customers?name[eq]="Alison%20Koch"&state[eq]=Colorado
         $queryItems= $filter->transform($request); # [['column','operator','value']]
@@ -26,7 +26,8 @@ class CustomerController extends Controller
         if(count($queryItems) == 0){
             return new CustomerCollection( Customer::paginate() );
         } else{
-            return new CustomerCollection( Customer::where($queryItems)->paginate() );
+            $customers = Customer::where($queryItems)->paginate();
+            return new CustomerCollection( $customers->appends($request->query()) );
         }
 
     }
