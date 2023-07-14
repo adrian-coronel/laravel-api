@@ -25,6 +25,9 @@ class CustomerResource extends JsonResource
 
             # ACA ES DONDE UTILIZAMOS EL FORMATO CAMELCASE
             'postalCode' => $this->postal_code,
+
+            # Recupera una relación si se ha cargado.
+            'invoices' => InvoiceResource::collection($this->whenLoaded('invoices'))
         ];
     }
 }
